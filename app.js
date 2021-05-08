@@ -36,12 +36,12 @@ app.use((req, res, next) => {
   const err = new Error("URL Inexistente")
   err.status = 404
   next(err)
-  // res.send({ mensagem: "URL Inexistente" })
 })
 
 app.use((err, req, res, next) => {
-  res.status(err.status)
-  res.send({ mensagem: err.message })
+  // console.log("middleware final");
+  const statusCode = err.statusCode || 500;
+  res.status(statusCode).send({ mensagem: err.message, erro: err });
 })
 
 app.listen(port, () => console.log(`App iniciou na porta ${port}!`));
