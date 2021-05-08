@@ -85,8 +85,13 @@ router.get("/:idProduto", async (req, res) => {
   const { idProduto } = req.params;
 
   try {
-    const doc = await Produto.findById(idProduto)
+
+    const doc = await Produto.find({
+      _id: idProduto,
+    }).select("_id nome");
+
     res.send(doc)
+
   } catch (err) {
     console.log({ mensagem: err.message })
   }
