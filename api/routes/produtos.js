@@ -94,6 +94,7 @@ router.get("/:idProduto", async (req, res) => {
 
   } catch (err) {
     console.log({ mensagem: err.message })
+    next(err);
   }
 
 });
@@ -119,7 +120,7 @@ router.patch("/:idProduto", async (req, res) => {
     res.status(204).send({});
   } catch (err) {
     console.log(err);
-    res.send({ mensagem: err.message });
+    res.status(500).send({ mensagem: err.message });
   }
 });
 
@@ -137,7 +138,7 @@ router.delete("/:idProduto", async function (req, res) {
     res.status(204).send({});
   } catch (err) {
     console.log(err);
-    res.send({ mensagem: err.message });
+    res.status(500).send({ mensagem: err.message });
   }
 });
 
