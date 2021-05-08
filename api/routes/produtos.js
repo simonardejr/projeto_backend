@@ -3,23 +3,34 @@ const router = express.Router();
 
 const Produto = require("../models/produto");
 
+const qtElementosNaPagina = 2;
 
 /**
  * GET /produtos
  * Lista de produtos
  */
 router.get("/", async function (req, res) {
+  const { pagina } = req.query;
+  const elementosPulados = (pagina - 1) * qtElementosNaPagina;
 
   try {
+
     const doc = await Produto.find({
       // nome: /Yakissoba.*/,
       // nome: { $in: [/Yakissoba.*/, /Frango.*/] }
       // preco: { $gte: 30.9 }
     })
+      .sort({
+        nome: 1, // menor para o maior / -1, // maior para o menor
+      })
+      .skip(elementosPulados)
+      .limit(qtElementosNaPagina)
+      .select("-permiteAlteracao -__v")
     res.send(doc)
+
   } catch (err) {
-    console.log({ mensagem: err.message })
-    res.send({ mensagem: err.message })
+    console.log(`Erro GET produtos! ${err}`)
+    res.status(500).send({ mensagem: err.message, erro: err });
   }
 
 });
