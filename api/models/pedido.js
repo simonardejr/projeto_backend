@@ -4,7 +4,7 @@ var produtoSubSchema = new mongoose.Schema(
   {
     idProduto: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "produtos",
+      ref: "Produto", // Schema
     },
     quantidade: {
       type: Number,
@@ -24,6 +24,7 @@ var pedidoSchema = new mongoose.Schema({
   nomeUsuario: {
     type: String,
     required: true,
+    index: true,
   },
   lista: [produtoSubSchema],
 });
