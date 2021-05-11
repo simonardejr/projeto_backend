@@ -1,3 +1,14 @@
+Trabalho final de Desenvolvimento de Backend (IESB, turma 2021-1).
+
+Desenvolvimento de API usando node.js, express e MongoDB.
+
+Feito por:
+- Simonarde Lima (2186332010)
+- Samuel Mozarth da Silva Soares (2186332035)
+- Gabriel Rodrigues Ibañez (2186332006)
+
+### MongoDB
+Utilizamos o banco de dados MongoDB em nuvem da [Mongo Atlas](https://www.mongodb.com/cloud/atlas). Crie uma conta e anote suas credenciais.
 ### Executando
 
 #### 1. Faça o clone do projeto:
@@ -29,7 +40,7 @@ npm install
 #### 6. Para executar:
 
 ```
-npm run dev` ou `npm start
+npm run dev
 ```
 - - -
 
@@ -100,7 +111,7 @@ DELETE /produtos/<idProduto>
 - - -
 
 
-### Docker
+### Docker (opcional)
 Para rodar usando docker, siga os passos abaixo:
 #### 1. Faça o build da imagem:
 
@@ -113,10 +124,10 @@ docker build -t nodejs_iesb .
 #### 2. Rode o container:
 
 ```
-docker run --rm -it --name node_iesb -v "$(pwd)":/app -p 3001:3001 nodejs_iesb npm run dev
+docker run --rm -it --name node_iesb -v "$(pwd)":/app -w /app -p 3000:3000 nodejs_iesb npm run dev
 ```
 
-***Obs.: troque a porta na flag -p para a porta que estiver usando no seu .env***
+***Obs.: troque a porta na flag `-p` para a porta que estiver usando no seu .env***
 
 #### 3. Pronto!
 
