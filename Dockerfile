@@ -2,4 +2,4 @@ FROM node:lts-alpine
 
 WORKDIR /app
 
-EXPOSE 3001
+EXPOSE 3000
