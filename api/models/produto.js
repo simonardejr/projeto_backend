@@ -25,16 +25,14 @@ var produtoSchema = new mongoose.Schema({
 
 const joiSchema = Joi.object({
   nome: Joi.string()
-    .alphanum()
     .min(3)
     .max(30)
     .required(),
   preco: Joi.number()
     .required(),
   descricao: Joi.string()
-    .alphanum()
     .min(3)
-    .max(30)
+    .max(200)
     .required(),
   permiteAlteracao: Joi.boolean(),
   imagem: Joi.string(),
