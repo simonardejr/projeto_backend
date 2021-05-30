@@ -36,8 +36,8 @@ const joiSchema = Joi.object({
     .min(3)
     .max(30)
     .required(),
-  imagem: Joi.string(),
   permiteAlteracao: Joi.boolean(),
+  imagem: Joi.string(),
 })
 
 produtoSchema.methods.validar = function (item) {

@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const Joi = require('joi');
 
 var produtoSubSchema = new mongoose.Schema(
   {
@@ -28,5 +29,23 @@ var pedidoSchema = new mongoose.Schema({
   },
   lista: [produtoSubSchema],
 });
+
+const produtoSubSchemaJoi = Joi.object({
+  idProduto: Joi.string().required(),
+  quantidade: Joi.number().required(),
+  comentario: Joi.string().min(3).max(30).trim()
+});
+
+const pedidoSchemaJoi = Joi.object({
+  data: Joi.date(),
+  nomeUsuario: Joi.string().trim().required(),
+  lista: Joi.array().items(produtoSubSchemaJoi).required()
+});
+
+pedidoSchema.methods.validar = function (item) {
+  const { error } = pedidoSchemaJoi.validate(item)
+
+  return error
+}
 
 module.exports = mongoose.model('Pedido', pedidoSchema);

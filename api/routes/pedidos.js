@@ -38,17 +38,24 @@ routes.get("/", async (req, res) => {
  * POST /pedidos
  * Inserção de pedidos
  */
-routes.post("/", async (req, res) => {
+routes.post("/", async (req, res, next) => {
   const { nomeUsuario, lista } = req.body;
 
   try {
-
     const pedido = new Pedido({
       nomeUsuario: nomeUsuario,
       lista: lista,
     });
 
+    validacao = pedido.validar(req.body)
+    if (validacao != null) {
+      throw new Error('Parando... ' + validacao)
+    }
+
+    
+
     const doc = await pedido.save();
+    console.log(doc);
 
     res.status(204).send({});
   } catch (err) {
