@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const Joi = require('joi');
 
 var produtoSchema = new mongoose.Schema({
   nome: {
@@ -21,5 +22,28 @@ var produtoSchema = new mongoose.Schema({
   },
   imagem: String
 });
+
+const joiSchema = Joi.object({
+  nome: Joi.string()
+    .alphanum()
+    .min(3)
+    .max(30)
+    .required(),
+  preco: Joi.number()
+    .required(),
+  descricao: Joi.string()
+    .alphanum()
+    .min(3)
+    .max(30)
+    .required(),
+  imagem: Joi.string(),
+  permiteAlteracao: Joi.boolean(),
+})
+
+produtoSchema.methods.validar = function (item) {
+  const { error } = joiSchema.validate(item)
+
+  return error
+}
 
 module.exports = mongoose.model('Produto', produtoSchema);

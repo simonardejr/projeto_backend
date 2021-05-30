@@ -40,7 +40,7 @@ router.get("/", async function (req, res) {
  * POST /produtos
  * Inserção de produtos
  */
-router.post("/", (req, res) => {
+router.post("/", (req, res, next) => {
   const { nome, preco, descricao, imagem, permiteAlteracao } = req.body;
 
   const infoProduto = {
@@ -59,20 +59,30 @@ router.post("/", (req, res) => {
 
   const produto = new Produto(infoProduto)
 
-  produto
-    .save()
-    .then((doc) => {
-      console.log(`POST produtos sucesso! ${doc}`);
-      res.status(204).send({ mensagem: "Objeto criado", doc: doc });
-    })
-    .catch((err) => {
-      console.log(`Erro POST produtos! ${err}`);
-      if (err.code == 11000) {
-        res.status(500).send({ mensagem: "Esse produto já foi cadastrado." });
-        return;
-      }
-      res.status(500).send({ mensagem: err.message, erro: err });
-    });
+  try {
+    validacao = produto.validar(req.body)
+    if (validacao != null) {
+      throw new Error('Parando... ' + validacao)
+    }
+
+    produto
+      .save()
+      .then((doc) => {
+        console.log(`POST produtos sucesso! ${doc}`);
+        res.status(204).send({ mensagem: "Objeto criado", doc: doc });
+      })
+      .catch((err) => {
+        console.log(`Erro POST produtos! ${err}`);
+        if (err.code == 11000) {
+          res.status(500).send({ mensagem: "Esse produto já foi cadastrado." });
+          return;
+        }
+        res.status(500).send({ mensagem: err.message, erro: err });
+      });
+  }
+  catch (err) {
+    next(err)
+  }
 
 });
 
